@@ -1,5 +1,5 @@
 package ru.fabit.dataprovider.realm.coroutines
 
-interface Mapper<T1, T2> {
-    fun map(value: T1): T2
+fun interface Mapper<in InputType, out ReturnType> {
+    fun map(value: InputType): ReturnType
 }
