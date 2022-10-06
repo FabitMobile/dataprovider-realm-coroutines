@@ -2,7 +2,7 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'realm-android'
+    id 'io.realm.kotlin'
 }
 
 android {
@@ -12,7 +12,7 @@ android {
         minSdk 19
         targetSdk 31
         versionCode 1
-        versionName "0.0-beta.1"
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -34,6 +34,11 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.FabitMobile:localservice-realm-coroutines:0.2-beta.1'
-    implementation 'com.github.FabitMobile:remoteservice-coroutines:0.1-beta.1'
+    implementation 'com.github.FabitMobile:localservice-realm-coroutines:1.0.1'
+    implementation 'com.github.FabitMobile:remoteservice-coroutines:1.0.0'
+
+    implementation "javax.inject:javax.inject:1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+    implementation "io.realm.kotlin:library-base:1.1.0"
 }

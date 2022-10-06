@@ -1,38 +1,38 @@
 package ru.fabit.dataprovider.realm.coroutines
 
-import io.realm.RealmModel
-import io.realm.RealmQuery
-import io.realm.Sort
+import io.realm.kotlin.query.RealmQuery
+import io.realm.kotlin.query.Sort
+import io.realm.kotlin.types.RealmObject
 import kotlinx.coroutines.flow.Flow
 import ru.fabit.localservice.realm.coroutines.util.AggregationFunction
+import kotlin.reflect.KClass
 
 interface EntityDataProvider {
-    suspend fun <T> getRemoteList(importRequest: ImportRequest<T>): List<T>
-
+    suspend fun <T> getRemoteList(importRequest: ImportRequest<List<T>>): List<T>
     suspend fun <T> getRemoteObject(importRequest: ImportRequest<T>): T
 
     suspend fun <T> getLocalList(
-        clazz: Class<RealmModel>,
-        predicate: (RealmQuery<RealmModel>) -> RealmQuery<RealmModel>,
-        dataToDomainCommonMapper: Mapper<List<RealmModel>, List<T>>,
-        sort: Map.Entry<Array<String>, Array<Sort>>? = null
+        clazz: KClass<out RealmObject>,
+        predicate: (RealmQuery<out RealmObject>) -> RealmQuery<out RealmObject>,
+        dataToDomainCommonMapper: RealmMapper<T>,
+        sort: Pair<String, Sort>? = null
     ): Flow<List<T>>
 
     suspend fun getLocalAggregationFuncValue(
-        clazz: Class<RealmModel>,
-        predicate: (RealmQuery<RealmModel>) -> RealmQuery<RealmModel>,
+        clazz: KClass<out RealmObject>,
+        predicate: (RealmQuery<out RealmObject>) -> RealmQuery<out RealmObject>,
         aggregationFunction: AggregationFunction,
         nameField: String
     ): Flow<Number?>
 
     suspend fun updateLocal(
-        clazz: Class<RealmModel>,
-        predicate: (RealmQuery<RealmModel>) -> RealmQuery<RealmModel>,
-        action: (RealmModel) -> Unit
+        clazz: KClass<out RealmObject>,
+        predicate: (RealmQuery<out RealmObject>) -> RealmQuery<out RealmObject>,
+        action: (RealmObject) -> Unit
     )
 
     suspend fun deleteLocal(
-        clazz: Class<RealmModel>,
-        predicate: (RealmQuery<RealmModel>) -> RealmQuery<RealmModel>
+        clazz: KClass<out RealmObject>,
+        predicate: (RealmQuery<out RealmObject>) -> RealmQuery<out RealmObject> = { it }
     )
 }
